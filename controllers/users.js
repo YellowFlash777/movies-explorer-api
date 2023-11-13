@@ -20,21 +20,21 @@ module.exports.login = (req, res, next) => {
 };
 
 module.exports.addUser = (req, res, next) => {
-  const { name, email, password } = req.body;
-  bcrypt
-    .hash(password, 10)
+  const {
+    name, email, password,
+  } = req.body;
+
+  bcrypt.hash(password, 10)
     .then((hash) => User.create({
-      name,
-      email,
-      password: hash,
+      name, email, password: hash,
     }))
+
     .then((user) => res.status(201).send({
-      name: user.name,
-      email: user.email,
+      name: user.name, _id: user._id, email: user.email,
     }))
     .catch((err) => {
       if (err.code === 11000) {
-        next(new ConflictError('Пользователь с данной почтой зарегистрирован'));
+        next(new ConflictError('Пользователь с таким email уже зарегестрирован'));
       } else if (err.name === 'ValidationError') {
         next(new BadRequestError(err.message));
       } else {

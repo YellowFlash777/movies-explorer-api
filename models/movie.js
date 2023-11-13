@@ -1,61 +1,55 @@
 const mongoose = require('mongoose');
-const urlValidator = require('../utils/constants');
+const { urlRegExp } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema({
   country: {
     type: String,
-    required: [true, 'Обязательное поле'],
+    required: [true, 'Поле должно быть заполнено'],
   },
   director: {
     type: String,
-    required: [true, 'Обязательное поле'],
+    required: [true, 'Поле должно быть заполнено'],
   },
   duration: {
-    type: Number,
-    required: [true, 'Обязательное поле'],
+    type: String,
+    required: [true, 'Поле должно быть заполнено'],
   },
   year: {
     type: String,
-    required: [true, 'Обязательное поле'],
+    required: [true, 'Поле должно быть заполнено'],
   },
   description: {
     type: String,
-    required: [true, 'Обязательное поле'],
+    required: [true, 'Поле должно быть заполнено'],
   },
-  nameRU: {
-    type: String,
-    required: [true, 'Обязательное поле'],
-  },
-  nameEN: {
-    type: String,
-    required: [true, 'Обязательное поле'],
-  },
-
   image: {
     type: String,
-    required: [true, 'Обязательное поле'],
+    required: [true, 'В поле должен быть URL изображения'],
     validate: {
       validator(url) {
-        return urlValidator.test(url);
+        return urlRegExp.test(url);
       },
+      message: 'URL неверный',
     },
   },
   trailerLink: {
     type: String,
-    required: [true, 'Обязательное поле'],
+    required: [true, 'В поле должна быть ссылка на Трейлер к Фильму'],
     validate: {
       validator(url) {
-        return urlValidator.test(url);
+        return urlRegExp.test(url);
       },
+      message: 'URL неверный',
     },
   },
   thumbnail: {
     type: String,
-    required: [true, 'Обязательное поле'],
+    required: [true, 'В поле должен быть URL изображения постера'],
     validate: {
       validator(url) {
-        return urlValidator.test(url);
+        return urlRegExp.test(url);
       },
+      message: 'URL неверный',
     },
   },
   owner: {
@@ -65,7 +59,15 @@ const movieSchema = new mongoose.Schema({
   },
   movieId: {
     type: Number,
-    required: [true, 'Обязательное поле'],
+    required: [true, 'Поле должно быть заполнено'],
+  },
+  nameRU: {
+    type: String,
+    required: [true, 'Поле должно быть заполнено'],
+  },
+  nameEN: {
+    type: String,
+    required: [true, 'Поле должно быть заполнено'],
   },
 }, { versionKey: false });
 
